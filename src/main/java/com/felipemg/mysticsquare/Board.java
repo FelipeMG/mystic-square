@@ -15,6 +15,11 @@ public final class Board {
     private Board(int size){
         this.size = size;
         this.tiles = initializeBoard(size);
+        this.tilesPosition = initializePositionMap(size);
+    }
+
+    public static Board of(int size){
+        return new Board(size);
     }
 
     private String[][] initializeBoard(int size){
@@ -31,8 +36,18 @@ public final class Board {
         return tiles;
     }
 
-    public static Board of(int size){
-        return new Board(size);
+    private Map<String, Position> initializePositionMap(int size){
+        Map<String, Position> tilesPosition = new HashMap<String, Position>(size * size);
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                tilesPosition.put(tiles[row][col],Position.of(row,col));
+            }
+        }
+        return tilesPosition;
+    }
+
+    public Position getPositionOfEmptyTile(){
+        return tilesPosition.get(Printer.EMPTY_SPACE);
     }
 
     @Override

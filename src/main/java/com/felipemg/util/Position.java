@@ -6,7 +6,7 @@ public class Position {
     private int y;
 
     private Position(final int x, final int y) {
-        if(x <= 0 || y <= 0){
+        if(x < 0 || y < 0){
             throw new IllegalArgumentException();
         }
         this.x = x;
@@ -17,4 +17,11 @@ public class Position {
         return new Position(x,y);
     }
 
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
