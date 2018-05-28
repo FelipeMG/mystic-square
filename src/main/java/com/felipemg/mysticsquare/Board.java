@@ -8,7 +8,8 @@ import java.util.Map;
 
 public final class Board {
 
-    private Map<String, Position> tiles;
+    private Map<String, Position> tilesPosition;
+    private String[][] tiles;
     private int size;
 
     private Board(int size){
@@ -16,19 +17,19 @@ public final class Board {
         this.tiles = initializeBoard(size);
     }
 
-    private Map<String, Position> initializeBoard(int size){
+    private String[][] initializeBoard(int size){
 
-        Integer numberOfTiles = (size * size) -1 ;
-        Map<String,Position> tiles = new HashMap<String, Position>(numberOfTiles);
-        for (int tile = 1; tile < size; tile++) {
-            int xIndex = (int) Math.ceil(tile * 1.0 /size);
-            int yIndex = tile % size;
-            tiles.put(Integer.toString(tile),Position.of(xIndex,yIndex));
+        int number = 1;
+        String[][] tiles = new String[size][size];
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                tiles[row][col] = String.valueOf(number);
+                ++number;
+            }
         }
-        tiles.put("",Position.of(size,size));
+        tiles[size-1][size-1] = Printer.EMPTY_SPACE;
         return tiles;
     }
-
 
     public static Board of(int size){
         return new Board(size);
@@ -36,9 +37,17 @@ public final class Board {
 
     @Override
     public String toString() {
-        return "Board{" +
-                "tiles=" + tiles +
-                '}';
-    }
+        StringBuilder builder = new StringBuilder();
 
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                builder.append(Printer.TILE_SEPARATOR);
+                builder.append(tiles[row][col]);
+            }
+            builder.append(Printer.TILE_SEPARATOR);
+            builder.append(Printer.NEW_LINE);
+        }
+
+        return builder.toString();
+    }
 }
