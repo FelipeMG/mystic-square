@@ -50,6 +50,19 @@ public final class Board {
         return tilesPosition.get(Printer.EMPTY_SPACE);
     }
 
+    public Board moveTile(String number){
+        Position numberPosition = tilesPosition.get(number);
+        Position emptyTilePosition = getPositionOfEmptyTile();
+
+        tiles[emptyTilePosition.getX()][emptyTilePosition.getY()] = number;
+        tiles[numberPosition.getX()][numberPosition.getY()] = Printer.EMPTY_SPACE;
+
+        tilesPosition.put(number,getPositionOfEmptyTile());
+        tilesPosition.put(Printer.EMPTY_SPACE,numberPosition);
+
+        return this;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
