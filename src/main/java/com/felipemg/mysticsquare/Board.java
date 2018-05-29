@@ -9,12 +9,12 @@ import java.util.Map;
 public final class Board {
 
     private Map<String, Position> tilesPosition;
-    private String[][] tiles;
+    private String[][] board;
     private int size;
 
     private Board(int size){
         this.size = size;
-        this.tiles = initializeBoard(size);
+        this.board = initializeBoard(size);
         this.tilesPosition = initializePositionMap(size);
     }
 
@@ -32,7 +32,7 @@ public final class Board {
                 ++number;
             }
         }
-        tiles[size-1][size-1] = Printer.EMPTY_SPACE;
+        tiles[size-1][size-1] = Printer.EMPTY_TILE;
         return tiles;
     }
 
@@ -40,27 +40,42 @@ public final class Board {
         Map<String, Position> tilesPosition = new HashMap<String, Position>(size * size);
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-                tilesPosition.put(tiles[row][col],Position.of(row,col));
+                tilesPosition.put(board[row][col],Position.of(row,col));
             }
         }
         return tilesPosition;
     }
 
     public Position getPositionOfEmptyTile(){
-        return tilesPosition.get(Printer.EMPTY_SPACE);
+        return tilesPosition.get(Printer.EMPTY_TILE);
     }
 
-    public Board moveTile(String number){
-        Position numberPosition = tilesPosition.get(number);
+    public Board moveTile(String tileNumber){
+
+        Position numberPosition = tilesPosition.get(tileNumber);
         Position emptyTilePosition = getPositionOfEmptyTile();
 
-        tiles[emptyTilePosition.getX()][emptyTilePosition.getY()] = number;
-        tiles[numberPosition.getX()][numberPosition.getY()] = Printer.EMPTY_SPACE;
+        if (areAdjacentTiles(numberPosition,emptyTilePosition)){
+            board[emptyTilePosition.getX()][emptyTilePosition.getY()] = tileNumber;
+            board[numberPosition.getX()][numberPosition.getY()] = Printer.EMPTY_TILE;
 
-        tilesPosition.put(number,getPositionOfEmptyTile());
-        tilesPosition.put(Printer.EMPTY_SPACE,numberPosition);
-
+            tilesPosition.put(tileNumber,getPositionOfEmptyTile());
+            tilesPosition.put(Printer.EMPTY_TILE,numberPosition);
+        }
         return this;
+    }
+
+    private boolean areAdjacentTiles(Position tile, Position emptyTile){
+        return areAdjacentInX(tile, emptyTile) || areAdjacentInY(tile, emptyTile);
+
+    }
+
+    private boolean areAdjacentInY(Position tile, Position emptyTile) {
+        return emptyTile.getY() == tile.getY() && (Math.abs(emptyTile.getX() - tile.getX()) == 1 );
+    }
+
+    private boolean areAdjacentInX(Position tile, Position emptyTile) {
+        return emptyTile.getX() == tile.getX() && (Math.abs(emptyTile.getY() - tile.getY()) == 1 );
     }
 
     @Override
@@ -70,7 +85,7 @@ public final class Board {
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
                 builder.append(Printer.TILE_SEPARATOR);
-                builder.append(tiles[row][col]);
+                builder.append(board[row][col]);
             }
             builder.append(Printer.TILE_SEPARATOR);
             builder.append(Printer.NEW_LINE);
