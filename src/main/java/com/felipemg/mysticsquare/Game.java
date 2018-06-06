@@ -22,7 +22,7 @@ public class Game {
 
         System.out.println(board.toString());
 
-        while(!areBoardsEqual(board, goalBoard)) {
+        while(!board.equals(goalBoard)) {
 
             System.out.println("Enter the number of the piece to move:");
             String pieceNumber = userInput.nextLine();
@@ -38,7 +38,4 @@ public class Game {
         System.out.println("Congratulations, end of game");
     }
 
-    private static boolean areBoardsEqual(Board first, Board second){
-        return first.toString().equals(second.toString());
-    }
 }

@@ -3,6 +3,7 @@ package com.felipemg.mysticsquare;
 import com.felipemg.util.Position;
 import com.felipemg.util.Printer;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,5 +107,23 @@ public final class Board {
         }
 
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Board board1 = (Board) o;
+
+        if (size != board1.size) return false;
+        return Arrays.deepEquals(board, board1.board);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.deepHashCode(board);
+        result = 31 * result + size;
+        return result;
     }
 }
