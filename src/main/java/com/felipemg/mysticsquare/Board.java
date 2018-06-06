@@ -9,9 +9,9 @@ import java.util.Map;
 
 public final class Board {
 
-    private Map<String, Position> tilesPosition;
-    private String[][] board;
-    private int size;
+    private final Map<String, Position> tilesPosition;
+    private final String[][] board;
+    private final int size;
 
     private Board(int size){
         this.size = size;
@@ -52,7 +52,7 @@ public final class Board {
         return tilesPosition;
     }
 
-    public Position getPositionOfEmptyTile(){
+    protected Position getPositionOfEmptyTile(){
         return tilesPosition.get(Printer.EMPTY_TILE);
     }
 
