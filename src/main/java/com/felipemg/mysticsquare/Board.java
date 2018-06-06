@@ -19,6 +19,11 @@ public final class Board {
     }
 
     public static Board of(int size){
+        Board newBoard = new Board(size);
+        return newBoard.disorderBoard();
+    }
+
+    public static Board goal(int size){
         return new Board(size);
     }
 
@@ -52,6 +57,10 @@ public final class Board {
 
     public Board moveTile(String tileNumber){
 
+        if (Integer.parseInt(tileNumber) >= (this.size * this.size) ){
+            throw new IllegalArgumentException("Number is not valid");
+        }
+
         Position numberPosition = tilesPosition.get(tileNumber);
         Position emptyTilePosition = getPositionOfEmptyTile();
 
@@ -76,6 +85,11 @@ public final class Board {
 
     private boolean areAdjacentInX(Position tile, Position emptyTile) {
         return emptyTile.getX() == tile.getX() && (Math.abs(emptyTile.getY() - tile.getY()) == 1 );
+    }
+
+    private Board disorderBoard(){
+        this.moveTile(String.valueOf((size*size-1)));
+        return this;
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Game {
 
     private static Board board;
+    private static Board goalBoard;
 
     public static void main(String args[]){
 
@@ -17,16 +18,27 @@ public class Game {
         System.out.println("input is '" + boardSize + "'");
 
         board = Board.of(boardSize);
+        goalBoard = Board.goal(boardSize);
 
         System.out.println(board.toString());
 
-
-        while(true) {
+        while(!areBoardsEqual(board, goalBoard)) {
 
             System.out.println("Enter the number of the piece to move:");
             String pieceNumber = userInput.nextLine();
-            board.moveTile(pieceNumber);
-            System.out.println(board.toString());
+            try {
+                board.moveTile(pieceNumber);
+                System.out.println(board.toString());
+            }
+            catch (IllegalArgumentException iae){
+                System.out.println(iae.getMessage());
+            }
         }
+
+        System.out.println("Congratulations, end of game");
+    }
+
+    private static boolean areBoardsEqual(Board first, Board second){
+        return first.toString().equals(second.toString());
     }
 }
