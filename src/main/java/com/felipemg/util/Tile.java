@@ -12,6 +12,10 @@ public class Tile {
         return new Tile(symbol);
     }
 
+    public String getSymbol() {
+        return symbol;
+    }
+
     @Override
     public String toString() {
         String symbolString = "  " + symbol + "  ";

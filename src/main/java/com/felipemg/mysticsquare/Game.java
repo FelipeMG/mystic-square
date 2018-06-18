@@ -22,15 +22,14 @@ public class Game {
 
         System.out.println(board.toString());
 
-        while(!board.equals(goalBoard)) {
+        while(!board.toString().equals(goalBoard.toString())) {
 
             System.out.println("Enter the number of the piece to move:");
             String pieceNumber = userInput.nextLine();
             try {
                 board.moveTile(pieceNumber);
                 System.out.println(board.toString());
-            }
-            catch (IllegalArgumentException iae){
+            } catch (IllegalArgumentException iae){
                 System.out.println(iae.getMessage());
             }
         }
